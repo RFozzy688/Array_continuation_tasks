@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Array_continuation_tasks
@@ -17,6 +18,38 @@ namespace Array_continuation_tasks
 
             Console.WriteLine("Исходный массив:");
             pr.PrintArray(array);
+            
+            Console.Write("Введите число для поиска: ");
+            int num = Int32.Parse(Console.ReadLine());
+
+            Task task1 = new Task(() => 
+            {
+                Console.WriteLine("Удалены дубликаты:");Thread.Sleep(5000);
+                pr.DeleteDuplicate(array);
+                pr.PrintArray(array);
+            });
+
+            Task task2 = task1.ContinueWith(o =>
+            {
+                Console.WriteLine("Отсортированный массив:");
+                pr.SortArray(array);
+                pr.PrintArray(array);
+            });
+
+            Task<int> task3 = task2.ContinueWith(o => pr.BinarySearchArray(array, num));
+
+            task1.Start();
+
+            int index = task3.Result;
+
+            if (index >= 0)
+            {
+                Console.WriteLine($"Число найдено под индексом: {index}");
+            }
+            else
+            {
+                Console.WriteLine("Число не найдено");
+            }
         }
         void FillArray(List<int> arr)
         {
@@ -36,9 +69,26 @@ namespace Array_continuation_tasks
 
             Console.WriteLine();
         }
-        List<int> DeleteDuplicate(List<int> arr)
+        void DeleteDuplicate(List<int> arr)
         {
-            return arr;
+            for (int i = 0; i < arr.Count; i++)
+            {
+                int index = arr.FindIndex(i + 1, o => o == arr[i]);
+
+                if (index >= 0)
+                {
+                    arr.RemoveAt(index);
+                    i--;
+                }
+            }
+        }
+        void SortArray(List<int> arr)
+        {
+            arr.Sort();
+        }
+        int BinarySearchArray(List<int> arr, int num)
+        {
+            return arr.BinarySearch(num);
         }
     }
 }
