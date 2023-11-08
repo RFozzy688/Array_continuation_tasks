@@ -24,8 +24,8 @@ namespace Array_continuation_tasks
 
             Task task1 = new Task(() => 
             {
-                Console.WriteLine("Удалены дубликаты:");Thread.Sleep(5000);
-                pr.DeleteDuplicate(array);
+                Console.WriteLine("Удалены дубликаты:");
+                pr.DeleteDuplicate(ref array);
                 pr.PrintArray(array);
             });
 
@@ -69,18 +69,14 @@ namespace Array_continuation_tasks
 
             Console.WriteLine();
         }
-        void DeleteDuplicate(List<int> arr)
+        void DeleteDuplicate(ref List<int> arr)
         {
-            for (int i = 0; i < arr.Count; i++)
-            {
-                int index = arr.FindIndex(i + 1, o => o == arr[i]);
+            var nums = arr.Distinct();
 
-                if (index >= 0)
-                {
-                    arr.RemoveAt(index);
-                    i--;
-                }
-            }
+            List<int> newArr = new List<int>();
+
+            newArr.AddRange(nums);
+            arr = newArr;
         }
         void SortArray(List<int> arr)
         {
