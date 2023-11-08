@@ -10,23 +10,24 @@ namespace Array_continuation_tasks
     {
         static void Main(string[] args)
         {
-            int[] array = new int[20];
+            Program pr = new Program();
+            List<int> array = new List<int>();
 
-            FillArray(array);
+            pr.FillArray(array);
 
             Console.WriteLine("Исходный массив:");
-            PrintArray(array);
+            pr.PrintArray(array);
         }
-        static void FillArray(int[] arr)
+        void FillArray(List<int> arr)
         {
             Random rnd = new Random();
 
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < 20; i++)
             {
-                arr[i] = rnd.Next(1, 20);
+                arr.Add(rnd.Next(1, 20));
             }
         }
-        static void PrintArray(int[] arr)
+        void PrintArray(List<int> arr)
         {
             foreach (int i in arr)
             {
@@ -34,6 +35,10 @@ namespace Array_continuation_tasks
             }
 
             Console.WriteLine();
+        }
+        List<int> DeleteDuplicate(List<int> arr)
+        {
+            return arr;
         }
     }
 }
